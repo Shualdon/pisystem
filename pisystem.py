@@ -49,7 +49,7 @@ class PiSystem:
         Chem.Kekulize(mol_copy)
         return mol_copy
 
-    def get_pi_systems(self) -> list[list[int]]:
+    def get_pi_systems(self) -> 'list[list[int]]':
         """Get the largest pi system in the molecule"""
         pi_systems = [
             self._find_pi_system(self.mol, x.GetIdx(), [x.GetIdx()])
@@ -74,19 +74,19 @@ class PiSystem:
                 self._find_pi_system(mol, neighbor.GetIdx(), seen)
         return seen
 
-    def get_largest_pi_system(self) -> list[int]:
+    def get_largest_pi_system(self) -> 'list[int]':
         """Get the largest pi system in the molecule"""
         return max(self.pi_systems, key=len)
 
-    def get_smallest_pi_system(self) -> list[int]:
+    def get_smallest_pi_system(self) -> 'list[int]':
         """Get the smallest pi system in the molecule"""
         return min(self.pi_systems, key=len)
 
-    def get_pi_system_size(self) -> int:
+    def get_pi_system_size(self) -> 'int':
         """Get the size of the largest pi system in the molecule"""
         return len(self.get_largest_pi_system())
 
-    def get_mol_coords(self) -> dict:
+    def get_mol_coords(self) -> 'dict':
         """Get the coordinates of the atoms in the largest pi system"""
         atom_list = []
         xyz_coords = {}
@@ -103,13 +103,13 @@ class PiSystem:
 
         return xyz_coords
 
-    def get_pi_system_coords(self) -> list[dict]:
+    def get_pi_system_coords(self) -> 'list[dict]':
         """Get the coordinates of the atoms in the largest pi system"""
         xyz_coords = self.get_mol_coords()
         system_coords = [xyz_coords[x] for x in self.largest_pi_system]
         return system_coords
 
-    def get_pi_system_distances(self) -> list[list[float]]:
+    def get_pi_system_distances(self) -> 'list[list[float]]':
         """Get the distances between all atoms in the largest pi system"""
         system_coords = self.get_pi_system_coords()
         distances = np.zeros((len(system_coords), len(system_coords)))
@@ -131,7 +131,7 @@ class PiSystem:
         distances = self.get_pi_system_distances()
         return np.amax(distances)
 
-    def get_ring_systems(self, include_spiro=False) -> list[list[int]]:
+    def get_ring_systems(self, include_spiro=False) -> 'list[list[int]]':
         """Get the ring systems in the molecule"""
         ring_info = self.mol.GetRingInfo()
         systems = []
@@ -158,7 +158,7 @@ class PiSystem:
         # The norm of the cross product of two sides is twice the area
         return np.linalg.norm(self._normal(triangles), axis=1) / 2
 
-    def _get_points(self, coords_dict: dict) -> list[list[float]]:
+    def _get_points(self, coords_dict: dict) -> 'list[list[float]]':
         """Get the coordinates of the atoms"""
         points = []
         for atom in coords_dict.values():
@@ -186,7 +186,7 @@ class PiSystem:
         """Get the area of the largest pi system"""
         return self.get_system_area(self.largest_pi_system)
 
-    def get_pi_areas(self) -> list[float]:
+    def get_pi_areas(self) -> 'list[float]':
         """Get the area of all pi systems"""
         areas = []
         for system in self.pi_systems:
